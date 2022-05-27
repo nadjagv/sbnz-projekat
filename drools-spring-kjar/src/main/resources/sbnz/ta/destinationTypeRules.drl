@@ -1,0 +1,37 @@
+package sbnz.integracija;
+
+import java.util.ArrayList;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+
+global ArrayList<DestinationTypeCount> destinationTypeCounts
+
+
+
+rule "Destination type - age YOUNG"
+	agenda-group "destination-type"
+	when
+	    $request: Request( ageCategory == AgeCategory.YOUNG )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.YOUNGER || destinationType == DestinationType.SINGLE, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - age ADULT"
+	agenda-group "destination-type"
+	when
+	    $request: Request( ageCategory == AgeCategory.ADULT )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.COUPLES || destinationType == DestinationType.SINGLE || destinationType == DestinationType.FAMILY, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - age OLD"
+	agenda-group "destination-type"
+	when
+	    $request: Request( ageCategory == AgeCategory.OLD )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.OLDER, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end

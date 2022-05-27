@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sbnz.integracija.example.enums.AveragePrice;
+import sbnz.integracija.example.enums.BudgetCategory;
 import sbnz.integracija.example.enums.DestinationType;
 import sbnz.integracija.example.enums.TownProximity;
 
@@ -42,7 +42,7 @@ public class Destination {
 	private String location;
     
     @Column(name = "price", nullable = false)
-	private AveragePrice price;
+	private BudgetCategory price;
     
     @Column(name = "proximity", nullable = false)
     private TownProximity proximity;

@@ -16,10 +16,10 @@ import sbnz.integracija.example.enums.TravelCompanion;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInputDTO {
+public class RequestDTO {
 	private Transportation transportation;
 	private Double budget;
-	private Integer years;
+	private Integer age;
 	private TravelCompanion travelCompanion;
 	private boolean children;
 	private List<Interest> interests;

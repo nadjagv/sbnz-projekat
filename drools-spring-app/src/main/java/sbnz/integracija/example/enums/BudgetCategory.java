@@ -1,5 +1,5 @@
 package sbnz.integracija.example.enums;
 
-public enum AveragePrice {
+public enum BudgetCategory {
 	BUDGET, STANDARD, LUX;
 }

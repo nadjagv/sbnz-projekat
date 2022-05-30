@@ -9,3 +9,14 @@ INSERT INTO attractions (deleted,destination_id,name,description,near_destinatio
 INSERT INTO attractions (deleted,destination_id,name,description,near_destination,tickets,child_friendly,type) values (false,1,'Barceloneta Beach','Bustling spot for sunbathing & swimming',true,false,true,0);
 INSERT INTO attractions (deleted,destination_id,name,description,near_destination,tickets,child_friendly,type) values (false,1,'Maremagnum','Roomy retail mall offering a variety of clothing shops, homewares, electronics & restaurant options.',true,false,true,2);
 INSERT INTO attractions (deleted,destination_id,name,description,near_destination,tickets,child_friendly,type) values (false,1,'Moog','Happening hangout for techno music, live concerts & dancing, as well as cocktails.',true,false,false,6);
+
+--reviews
+
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,1,5,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,1,4,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,1,2,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,2,4,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,3,2,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,4,4,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,5,4,'','2022-01-01 12:00');
+INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,5,1,'','2020-01-01 12:00');

@@ -1,9 +1,7 @@
 package sbnz.integracija.example.facts;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.SQLDelete;
@@ -24,12 +21,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sbnz.integracija.example.enums.AttractionType;
 
 @Entity
-@Table(name = "attractions")
+@Table(name = "reviews")
 @SQLDelete(sql
-        = "UPDATE attractions "
+        = "UPDATE reviews "
         + "SET deleted = true "
         + "WHERE id = ?")
 @Where(clause = "deleted = false")
@@ -38,7 +34,7 @@ import sbnz.integracija.example.enums.AttractionType;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Attraction {
+public class Review {
 	
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -47,29 +43,17 @@ public class Attraction {
 	@Column(name = "deleted", nullable = false)
     private boolean deleted;
     
-    @Column(name = "name", nullable = false)
-	private String name;
+    @Column(name = "rating", nullable = false)
+	private Double rating;
     
-    @Column(name = "description", nullable = false)
-	private String description;
+    @Column(name = "text", nullable = false)
+	private String text;
     
-    @Column(name = "near_destination", nullable = false)
-	private boolean nearDestination;
-    
-    @Column(name = "tickets", nullable = false)
-	private boolean tickets;
-    
-    @Column(name = "child_friendly", nullable = false)
-	private boolean childFriendly;
-    
-    @Column(name = "type", nullable = false)
-	private AttractionType attractionType;
+    @Column(name = "date", nullable = false)
+	private LocalDateTime date;
     
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    private Destination destination;
-    
-    @OneToMany(mappedBy = "attraction", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Review> reviews=new HashSet<Review>();
+    private Attraction attraction;
 
 }

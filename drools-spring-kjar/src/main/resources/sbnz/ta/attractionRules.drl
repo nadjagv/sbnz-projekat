@@ -3,6 +3,7 @@ package sbnz.integracija;
 import sbnz.integracija.example.facts.*
 import sbnz.integracija.example.enums.*
 import java.util.List;
+import java.time.LocalDateTime;
 
 rule "Filter for transport"
 	agenda-group "attraction"
@@ -10,7 +11,11 @@ rule "Filter for transport"
 	when
 		$response: AttractionsResponse($car: hasCar)
 		$request: Request($hasChildren:children,$budget:budgetCategory,$types: types)
-		$a: Attraction(nearDestination || $car,childFriendly==$hasChildren || !$hasChildren,$budget!=BudgetCategory.BUDGET || !tickets,attractionType memberOf $types)
+		$a: Attraction($reviews:reviews,nearDestination || $car,childFriendly==$hasChildren || !$hasChildren,$budget!=BudgetCategory.BUDGET || !tickets,attractionType memberOf $types)
+		Number(intValue>=3) from accumulate(
+			Review($q: rating,$d: date,$d.isAfter(LocalDateTime.now().minusDays(365))) from $reviews,
+			average($q)
+		)
 	then
 	    modify($response){addAttraction($a)}
 	end

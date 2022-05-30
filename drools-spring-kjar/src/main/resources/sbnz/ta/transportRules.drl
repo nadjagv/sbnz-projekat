@@ -17,6 +17,7 @@ rule "Classify Transport - Destination True"
 	agenda-group "transport"
 	when
 	    $dest: Destination( rentACar==true )
+	    $request: Request( budgetCategory!=BudgetCategory.BUDGET )
 	    $response: AttractionsResponse()
 	then
 	    System.out.println("Classify Transport - Destination True");

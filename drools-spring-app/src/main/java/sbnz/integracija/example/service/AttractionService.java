@@ -54,6 +54,7 @@ public class AttractionService {
 		
 		kieSession.insert(request);
 		kieSession.insert(response);
+		kieSession.insert(dest.get());
 		kieSession.getAgenda().getAgendaGroup("budget").setFocus();
 		kieSession.fireAllRules();
 		

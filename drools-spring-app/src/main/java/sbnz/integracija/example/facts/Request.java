@@ -1,6 +1,7 @@
 package sbnz.integracija.example.facts;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sbnz.integracija.example.dto.RequestDTO;
 import sbnz.integracija.example.enums.AgeCategory;
+import sbnz.integracija.example.enums.AttractionType;
 import sbnz.integracija.example.enums.BudgetCategory;
 import sbnz.integracija.example.enums.Interest;
 import sbnz.integracija.example.enums.Transportation;
@@ -35,6 +37,7 @@ public class Request implements Serializable{
 	
 	private BudgetCategory budgetCategory;
 	private AgeCategory ageCategory;
+	private List<AttractionType> types;
 	
 	public Request(RequestDTO dto) {
 		this.transportation = dto.getTransportation();
@@ -43,6 +46,11 @@ public class Request implements Serializable{
 		this.travelCompanion = dto.getTravelCompanion();
 		this.children = dto.isChildren();
 		this.interests = dto.getInterests();
+		this.types=new ArrayList<AttractionType>();
+	}
+	
+	public void addType(AttractionType type) {
+		this.types.add(type);
 	}
 
 }

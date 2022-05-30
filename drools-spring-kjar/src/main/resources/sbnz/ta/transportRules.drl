@@ -1,0 +1,35 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+
+rule "Classify Transport - Request True"
+	agenda-group "transport"
+	when
+	    $request: Request( transportation==Transportation.CAR )
+	    $response: AttractionsResponse()
+	then
+	    System.out.println("Classify Transport - Request True");
+	    modify($response){ setHasCar(true); }
+	end
+	
+rule "Classify Transport - Destination True"
+	agenda-group "transport"
+	when
+	    $dest: Destination( rentACar==true )
+	    $response: AttractionsResponse()
+	then
+	    System.out.println("Classify Transport - Destination True");
+	    modify($response){ setHasCar(true); }
+	end
+
+rule "Classify Transport - False"
+	agenda-group "transport"
+	when
+	     $request: Request( transportation!=Transportation.CAR )
+	     $dest: Destination( rentACar==false )
+	     $response: AttractionsResponse()
+	then
+	    System.out.println("Classify Transport - False");
+	    modify($response){ setHasCar(false); }
+	end

@@ -1,0 +1,62 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+
+rule "Add for BEACH"
+	agenda-group "types"
+	lock-on-active true
+	when
+		$request: Request(interests contains Interest.BEACH)
+	then
+	    modify($request){addType(AttractionType.BEACH)}
+	end
+	
+rule "Add for ADVENTURE"
+	agenda-group "types"
+	lock-on-active true
+	when
+		$request: Request(interests contains Interest.ADVENTURE)
+	then
+	    modify($request){addType(AttractionType.NATURE)}
+	    modify($request){addType(AttractionType.EXTREME_SPORT)}
+	end
+	
+rule "Add for FOOD"
+	agenda-group "types"
+	lock-on-active true
+	when
+		$request: Request(interests contains Interest.FOOD)
+	then
+	    modify($request){addType(AttractionType.RESTAURANT)}
+	end
+	
+rule "Add for NIGHTLIFE"
+	agenda-group "types"
+	lock-on-active true
+	when
+		$request: Request(interests contains Interest.NIGHTLIFE)
+	then
+	    modify($request){addType(AttractionType.CLUB)}
+	    modify($request){addType(AttractionType.CONCERT)}
+	end
+	
+rule "Add for SHOPPING"
+	agenda-group "types"
+	lock-on-active true
+	when
+		$request: Request(interests contains Interest.SHOPPING)
+	then
+	    modify($request){addType(AttractionType.SHOPPING_MALL)}
+	end
+	
+rule "Add for SIGHTSEEING"
+	agenda-group "types"
+	lock-on-active true
+	when
+		$request: Request(interests contains Interest.SIGHTSEEING)
+	then
+	    modify($request){addType(AttractionType.MONUMENT)}
+	    modify($request){addType(AttractionType.MUSEUM)}
+	    modify($request){addType(AttractionType.GALERY)}
+	end

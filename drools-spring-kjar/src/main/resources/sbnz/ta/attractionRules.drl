@@ -1,0 +1,16 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+import java.util.List;
+
+rule "Filter for transport"
+	agenda-group "attraction"
+	lock-on-active true
+	when
+		$response: AttractionsResponse($car: hasCar)
+		$request: Request($hasChildren:children,$budget:budgetCategory,$types: types)
+		$a: Attraction(nearDestination || $car,childFriendly==$hasChildren || !$hasChildren,$budget!=BudgetCategory.BUDGET || !tickets,attractionType memberOf $types)
+	then
+	    modify($response){addAttraction($a)}
+	end

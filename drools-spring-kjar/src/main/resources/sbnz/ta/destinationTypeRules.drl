@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import sbnz.integracija.example.facts.*
 import sbnz.integracija.example.enums.*
 
-global ArrayList<DestinationTypeCount> destinationTypeCounts
 
 
 
 rule "Destination type - age YOUNG"
 	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
 	when
 	    $request: Request( ageCategory == AgeCategory.YOUNG )
 	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.YOUNGER || destinationType == DestinationType.SINGLE, $oldCount: count)
@@ -20,6 +22,8 @@ rule "Destination type - age YOUNG"
 	
 rule "Destination type - age ADULT"
 	agenda-group "destination-type"
+	no-loop
+	lock-on-active
 	when
 	    $request: Request( ageCategory == AgeCategory.ADULT )
 	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.COUPLES || destinationType == DestinationType.SINGLE || destinationType == DestinationType.FAMILY, $oldCount: count)
@@ -29,9 +33,99 @@ rule "Destination type - age ADULT"
 	
 rule "Destination type - age OLD"
 	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
 	when
 	    $request: Request( ageCategory == AgeCategory.OLD )
 	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.OLDER, $oldCount: count)
 	then
 	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - travelCompanion FRIENDS"
+	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
+	when
+	    $request: Request( travelCompanion == TravelCompanion.FRIENDS )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.YOUNGER, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - travelCompanion PARTNER"
+	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
+	when
+	    $request: Request( travelCompanion == TravelCompanion.PARTNER )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.COUPLES, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - travelCompanion ALONE"
+	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
+	when
+	    $request: Request( travelCompanion == TravelCompanion.ALONE )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.SINGLE, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - travelCompanion FAMILY"
+	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
+	when
+	    $request: Request( travelCompanion == TravelCompanion.FAMILY )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.FAMILY, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+rule "Destination type - children TRUE"
+	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
+	when
+	    $request: Request( children == true )
+	    $destTypeCount: DestinationTypeCount(destinationType == DestinationType.FAMILY, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+
+rule "Destination type - children FALSE"
+	agenda-group "destination-type"
+	no-loop
+	lock-on-active
+	salience 2
+	when
+	    $request: Request( children == false )
+	    $destTypeCount: DestinationTypeCount(destinationType != DestinationType.FAMILY, $oldCount: count)
+	then
+	    modify($destTypeCount){ setCount($oldCount+1); }
+	end
+	
+	
+rule "Set destination type"
+	agenda-group "destination-type"
+	
+	salience 0
+	when
+		accumulate (DestinationTypeCount($count: count),
+			$max : max($count)
+		)
+		$destTypeCount: DestinationTypeCount($destinationType: destinationType, count == $max)
+		$request: Request()
+	then
+	    modify($request){ setDestinationType($destinationType); }
 	end

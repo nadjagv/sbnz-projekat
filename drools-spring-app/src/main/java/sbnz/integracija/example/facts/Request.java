@@ -13,6 +13,7 @@ import sbnz.integracija.example.dto.RequestDTO;
 import sbnz.integracija.example.enums.AgeCategory;
 import sbnz.integracija.example.enums.AttractionType;
 import sbnz.integracija.example.enums.BudgetCategory;
+import sbnz.integracija.example.enums.DestinationType;
 import sbnz.integracija.example.enums.Interest;
 import sbnz.integracija.example.enums.Transportation;
 import sbnz.integracija.example.enums.TravelCompanion;
@@ -37,6 +38,7 @@ public class Request implements Serializable{
 	
 	private BudgetCategory budgetCategory;
 	private AgeCategory ageCategory;
+	private DestinationType destinationType;
 	private List<AttractionType> types;
 	
 	public Request(RequestDTO dto) {
@@ -47,6 +49,7 @@ public class Request implements Serializable{
 		this.children = dto.isChildren();
 		this.interests = dto.getInterests();
 		this.types=new ArrayList<AttractionType>();
+
 	}
 	
 	public void addType(AttractionType type) {

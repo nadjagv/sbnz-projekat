@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.integracija.example.dto.RequestDTO;
+import sbnz.integracija.example.facts.DestinationsResponse;
 import sbnz.integracija.example.facts.Request;
 import sbnz.integracija.example.service.DestinationService;
 
@@ -19,9 +20,9 @@ public class DestinationController {
 	private DestinationService destinationService;
 	
 	@PostMapping
-	public ResponseEntity<Request> createRealEstate(@RequestBody RequestDTO dto){
-        Request request = destinationService.recommendDestination(dto);
-        return new ResponseEntity<Request>(request, HttpStatus.OK);
+	public ResponseEntity<DestinationsResponse> createRealEstate(@RequestBody RequestDTO dto){
+		DestinationsResponse request = destinationService.recommendDestination(dto);
+        return new ResponseEntity<DestinationsResponse>(request, HttpStatus.OK);
     }
 
 }

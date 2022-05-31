@@ -1,0 +1,69 @@
+package sbnz.integracija;
+
+import java.util.ArrayList;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+rule "Filter destinations"
+	agenda-group "destination"
+	lock-on-active
+	salience 1
+	when
+		$response: DestinationsResponse()
+		$request: Request($destinationType: destinationType)
+		
+		$d: Destination(((proximity==TownProximity.TOWN || proximity==TownProximity.SUBURB) && $destinationType == DestinationType.YOUNGER) ||
+        									(restaurants == true  && $destinationType == DestinationType.COUPLES) ||
+        									(restaurants == true  && shops == true && childrenActivities == true && proximity==TownProximity.SUBURB && $destinationType == DestinationType.FAMILY) ||
+        									(restaurants == true  && shops == true && $destinationType == DestinationType.OLDER) ||
+        									(restaurants == true  && proximity==TownProximity.TOWN && $destinationType == DestinationType.SINGLE))
+	then
+	    modify($response){addDestination($d)}
+	end
+	
+rule "Filter destinations - TRANSPORTATION"
+	agenda-group "destination"
+	lock-on-active 
+	when
+	
+		$response: DestinationsResponse($destinations: destinations)
+		$request: Request($transportation: transportation)
+		$matching: Set() from accumulate (
+			$d: Destination(((proximity==TownProximity.TOWN || proximity==TownProximity.SUBURB) && $transportation == Transportation.BUS) ||
+		    									(airport==true && $transportation == Transportation.PLANE) ||
+		    									$transportation == Transportation.CAR)
+		    from $destinations,
+		    init(Set s = new HashSet();)
+		    action(s.add($d);)
+			result(s)
+			)
+	then
+	    modify($response){setDestinations($matching)}
+	end
+	
+rule "Filter destinations - BUDGET"
+	agenda-group "destination"
+	lock-on-active 
+	when
+	
+		$response: DestinationsResponse($destinations: destinations)
+		$request: Request($budget: budgetCategory)
+		$matching: Set() from accumulate (
+			$d: Destination(price == $budget)
+		    from $destinations,
+		    init(Set s = new HashSet();)
+		    action(s.add($d);)
+			result(s)
+			)
+	then
+	    modify($response){setDestinations($matching)}
+	end
+	
+	
+
+	

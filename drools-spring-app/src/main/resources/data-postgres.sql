@@ -1,6 +1,8 @@
 --destionations
 
 INSERT INTO destinations (deleted,location,price,proximity,airport,rent_a_car,beach,sightseeings,shops,restaurants,children_activities,type) values (false,'Barcelona, Spain',1,0,true,true,true,true,true,true,true,1);
+INSERT INTO destinations (deleted,location,price,proximity,airport,rent_a_car,beach,sightseeings,shops,restaurants,children_activities,type) values (false,'New York, USA',2,0,true,true,true,true,true,true,true,1);
+INSERT INTO destinations (deleted,location,price,proximity,airport,rent_a_car,beach,sightseeings,shops,restaurants,children_activities,type) values (false,'Paris, France',1,0,false,true,true,true,true,true,false,1);
 
 --attractions
 

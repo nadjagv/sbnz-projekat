@@ -5,17 +5,20 @@ import sbnz.integracija.example.enums.*
 import java.util.List;
 import java.time.LocalDateTime;
 
-rule "Filter for transport"
+rule "Filter attractions"
 	agenda-group "attraction"
 	lock-on-active true
 	when
 		$response: AttractionsResponse($car: hasCar)
 		$request: Request($hasChildren:children,$budget:budgetCategory,$types: types)
 		$a: Attraction($reviews:reviews,nearDestination==true || $car==true,childFriendly==$hasChildren || $hasChildren==false,$budget!=BudgetCategory.BUDGET || tickets==false,attractionType memberOf $types)
-		Number(intValue>=3) from accumulate(
-			Review($q: rating,$d: date,$d.isAfter(LocalDateTime.now().minusDays(365))) from $reviews,
-			average($q)
+		accumulate(
+			Review($r: this,$q: rating,$d: date,$d.isAfter(LocalDateTime.now().minusDays(365))) from $reviews,
+			$avg: average($q),
+			$freviews: collectSet($r)
 		)
+		eval($avg>=3)
+		eval($freviews.size()>2)
 	then
 	    modify($response){addAttraction($a)}
 	end

@@ -1,0 +1,8 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+
+query "Get destinations of a type" (DestinationType $dt)
+	$d: Destination(destinationType==$dt)
+end

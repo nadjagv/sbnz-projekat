@@ -7,6 +7,8 @@ import java.util.Set;
 import org.kie.api.runtime.Globals;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +93,30 @@ public class DestinationService {
 			System.out.println(destinationTypeCount.getCount());
 		}
 		return response;
+	}
+	
+	public List<Destination> findDestinationType(DestinationType dt) {
+		List<Destination> destinations =  destinationRep.findAll();
+		
+		KieSession kieSession = kieContainer.newKieSession();
+		
+		for (Destination destination : destinations) {
+			kieSession.insert(destination);
+		}
+		
+		QueryResults results=kieSession.getQueryResults("Get destinations of a type", dt);
+		ArrayList<Destination> destinationsFound=new ArrayList<Destination>();
+		
+		for(QueryResultsRow row: results) {
+			Destination d=(Destination) row.get("$d");
+			destinationsFound.add(d);
+			System.out.println(d.getLocation());
+		}
+		
+				
+		kieSession.dispose();
+		
+		return destinationsFound;
 	}
 
 }

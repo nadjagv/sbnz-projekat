@@ -1,5 +1,7 @@
 package sbnz.integracija.example.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +23,9 @@ import sbnz.integracija.example.facts.Destination;
 import sbnz.integracija.example.facts.DestinationTypeCount;
 import sbnz.integracija.example.facts.DestinationsResponse;
 import sbnz.integracija.example.facts.Request;
+import sbnz.integracija.example.facts.SearchResult;
 import sbnz.integracija.example.repository.DestinationRepository;
+import sbnz.integracija.example.repository.SearchResultRepository;
 
 @Service
 public class DestinationService {
@@ -31,6 +35,9 @@ public class DestinationService {
 	
 	@Autowired
 	private DestinationRepository destinationRep;
+	
+	@Autowired
+	private SearchResultRepository searchResultRepository;
 
 	@Autowired
 	public DestinationService(KieContainer kieContainer) {
@@ -89,8 +96,12 @@ public class DestinationService {
 		
 		kieSession.dispose();
 		
-		for (DestinationTypeCount destinationTypeCount : destinationTypeCounts) {
-			System.out.println(destinationTypeCount.getCount());
+		
+		for (Destination d : response.getDestinations()) {
+			SearchResult sr = new SearchResult();
+			sr.setDestination(d);
+			sr.setTimestamp(new Timestamp(System.currentTimeMillis()));
+			searchResultRepository.save(sr);
 		}
 		return response;
 	}

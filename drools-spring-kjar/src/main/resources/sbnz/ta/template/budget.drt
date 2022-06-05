@@ -1,0 +1,21 @@
+template header
+minBudget
+maxBudget
+budgetCategory
+
+package sbnz.integracija;
+
+import sbnz.integracija.example.facts.*
+import sbnz.integracija.example.enums.*
+
+template "Classify request by budget"
+
+rule "Classify Budget - @{budgetCategory}"
+	agenda-group "budget"
+	when
+	    $request: Request( budget >= @{minBudget} && budget < @{maxBudget} )
+	then
+	    modify($request){ setBudgetCategory(BudgetCategory.@{budgetCategory}); }
+	end
+
+end template

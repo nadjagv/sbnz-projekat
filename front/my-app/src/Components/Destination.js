@@ -22,21 +22,29 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 
-export default function Destination({ destination,dblClick }) {
-
-  const handleDblClick=()=>{
-    dblClick(destination.id)
-  }
+export default function Destination({ destination, dblClick, onDelete }) {
+  const handleDblClick = () => {
+    dblClick(destination.id);
+  };
 
   return (
     <Card
       sx={{ maxWidth: 345, margin: 10 }}
-      style={{ border: "1px solid grey",margin:"auto" }}
-      onDoubleClick={()=>{
-        handleDblClick()
+      style={{ border: "1px solid grey", margin: "auto", marginTop: "10px" }}
+      onDoubleClick={() => {
+        handleDblClick();
       }}
     >
-      <CardHeader title={destination.location} subheader={destination.destinationType+", "+destination.proximity+", "+destination.price}/>
+      <CardHeader
+        title={destination.location}
+        subheader={
+          destination.destinationType +
+          ", " +
+          destination.proximity +
+          ", " +
+          destination.price
+        }
+      />
       <CardMedia component="img" height="194" image="" alt="Missing..." />
       <CardContent>
         <Typography variant="body1">
@@ -49,7 +57,7 @@ export default function Destination({ destination,dblClick }) {
         </Typography>
         <Typography variant="body1">
           Child activities:
-          {destination.childActivities ? (
+          {destination.childrenActivities ? (
             <CheckIcon></CheckIcon>
           ) : (
             <CloseIcon></CloseIcon>
@@ -96,6 +104,18 @@ export default function Destination({ destination,dblClick }) {
           )}
         </Typography>
       </CardContent>
+      {onDelete && (
+        <CardActions>
+          <IconButton
+            aria-label="close"
+            onClick={() => {
+              onDelete(destination.id);
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </CardActions>
+      )}
     </Card>
   );
 }

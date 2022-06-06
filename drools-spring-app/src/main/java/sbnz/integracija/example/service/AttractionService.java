@@ -143,5 +143,9 @@ public class AttractionService {
 		return attractionRepository.save(attraction);
 	}
 	
+	public List<Attraction> findAllForDestination(Integer destinationId){
+		return attractionRepository.findAllByDestinationId(destinationId);
+	}
+	
 
 }

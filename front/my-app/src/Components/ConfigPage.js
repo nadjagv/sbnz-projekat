@@ -41,6 +41,7 @@ export default function ConfigPage() {
           placeholder="Enter adult age minimum"
           fullWidth
           required
+          type="number"
           onChange={(e) => {
             setAdultAge(e.target.value);
           }}
@@ -50,6 +51,7 @@ export default function ConfigPage() {
           label="Old age minimum"
           placeholder="Enter old age minimum"
           fullWidth
+          type="number"
           required
           onChange={(e) => {
             setOldAge(e.target.value);
@@ -75,6 +77,7 @@ export default function ConfigPage() {
           placeholder="Enter Standard budget minimum"
           fullWidth
           required
+          type="number"
           onChange={(e) => {
             setStandardBudget(e.target.value);
           }}
@@ -84,6 +87,7 @@ export default function ConfigPage() {
           label="Lux budget minimum"
           placeholder="Enter Lux budget minimum"
           fullWidth
+          type="number"
           required
           onChange={(e) => {
             setLuxBudget(e.target.value);

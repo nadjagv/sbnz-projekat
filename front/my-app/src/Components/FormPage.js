@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import { useState, useEffect } from "react";
 import environment from "../Constants/Environment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Navigate } from "react-router-dom";
 import { RadioGroup, Radio } from "@mui/material";
 import Attractions from "./Attractions";
 
@@ -26,8 +26,8 @@ export default function FormPage() {
   const [age, setAge] = useState(0);
   const [partner, setPartner] = useState("ALONE");
   const [interests, setInterests] = useState([]);
-  const [attractionsModal, setAttractionsModal] = useState(false);
-  const [attractions, setAttractions] = useState([]);
+
+  const navigate = useNavigate();
 
   const options = [
     { value: "BEACH", name: "Beach" },
@@ -44,15 +44,7 @@ export default function FormPage() {
     const interestsDTO=interests.map(i=>i.value)
     axios.post(environment.baseURL+'destination',{transportation:transport,budget:budget,age:age,travelCompanion: partner,children:children,interests:interestsDTO}).then(response=>{
         console.log(response.data)
-    });
-  };
-
-  const handleAttractions = () => {
-    const interestsDTO=interests.map(i=>i.value)
-    axios.post(environment.baseURL+'attraction?destinationId=1',{transportation:transport,budget:budget,age:age,travelCompanion: partner,children:children,interests:interestsDTO}).then(response=>{
-        console.log(response.data)
-        setAttractions(response.data.attractions)
-        setAttractionsModal(true)
+        navigate('/destinations',{state:{destinations:response.data,parameters:{transportation:transport,budget:budget,age:age,travelCompanion: partner,children:children,interests:interestsDTO}}});
     });
   };
 
@@ -167,25 +159,8 @@ export default function FormPage() {
         >
           Search
         </Button>
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          style={btnstyle}
-          fullWidth
-          onClick={() => {
-            handleAttractions();
-          }}
-        >
-          Test Attractions
-        </Button>
       </Paper>
 
-      <Attractions
-        close={setAttractionsModal}
-        modal={attractionsModal}
-        attractions={attractions}
-      ></Attractions>
     </Grid>
   );
 }

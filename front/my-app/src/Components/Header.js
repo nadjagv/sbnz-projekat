@@ -30,6 +30,26 @@ function Header(props) {
             component="div"
             sx={{ flexGrow: 1 }}
           >
+            <Link style={{ textDecoration: "none" }} to="/popular">
+              Popular
+            </Link>
+          </Typography>
+          <Typography
+            color="inherit"
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
+            <Link style={{ textDecoration: "none" }} to="/type">
+              Search for type
+            </Link>
+          </Typography>
+          <Typography
+            color="inherit"
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
             <Link style={{ textDecoration: "none" }} to="/login">
               Login
             </Link>

@@ -7,6 +7,9 @@ import {
 import FormPage from './Components/FormPage'
 import LoginPage from './Components/LoginPage';
 import Header from './Components/Header';
+import Popular from './Components/Popular';
+import ForType from './Components/ForType';
+import Destinations from './Components/Destinations';
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
         <Routes>
           <Route exact path="/" element={<FormPage></FormPage>}></Route>
           <Route exact path="/login" element={<LoginPage></LoginPage>}></Route>
+          <Route exact path="/popular" element={<Popular></Popular>}></Route>
+          <Route exact path="/type" element={<ForType></ForType>}></Route>
+          <Route exact path="/destinations" element={<Destinations></Destinations>}></Route>
         </Routes>
       </div>
     </Router>

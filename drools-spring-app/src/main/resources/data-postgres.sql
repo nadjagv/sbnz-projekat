@@ -22,3 +22,15 @@ INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,3,2,'
 INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,4,4,'','2022-01-01 12:00');
 INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,5,4,'','2022-01-01 12:00');
 INSERT INTO reviews (deleted,attraction_id,rating,text,date) values (false,5,1,'','2020-01-01 12:00');
+
+--users
+
+insert into users (deleted,username,password) values ( false,'user1','$2a$12$XG8yzdx3RghoK0y2RnMON.gLs1ky7e/R4toD.kSCwIokZWKKdIVSW');
+
+--roles
+
+insert into roles (role,deleted) values ('ROLE_ADMIN',false);
+
+--user-roles
+
+INSERT INTO ZAPOSLENI_ROLE (zaposleni_id, role_id) VALUES (1, 1); 

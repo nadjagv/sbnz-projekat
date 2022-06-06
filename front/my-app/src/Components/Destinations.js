@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import environment from "../Constants/Environment";
 import axios from "axios";
 import Attractions from "./Attractions";
+import Header from './Header'
 
 export default function Destinations(props) {
   const location = useLocation();
@@ -26,7 +27,7 @@ export default function Destinations(props) {
   };
 
   return (
-    <div style={{marginTop:"20px"}}>
+    <><Header></Header><div style={{marginTop:"20px"}}>
       {destinations.map((dest) => (
         <Destination destination={dest} dblClick={handleAttractions}></Destination>
     ))}
@@ -35,6 +36,6 @@ export default function Destinations(props) {
         modal={attractionsModal}
         attractions={attractions}
       ></Attractions>
-    </div>
+    </div></>
   );
 }

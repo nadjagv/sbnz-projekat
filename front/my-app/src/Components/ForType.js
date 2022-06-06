@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import environment from "../Constants/Environment";
 import Destination from "./Destination";
+import Header from './Header'
 
 export default function ForType() {
   const [aType, setAType] = useState("YOUNGER");
@@ -21,7 +22,7 @@ export default function ForType() {
   };
 
   return (
-    <div>
+    <><Header></Header><div>
       <InputLabel id="demo-simple-select-label">Type to Search</InputLabel>
       <Select
         labelId="demo-simple-select-label"
@@ -55,6 +56,6 @@ export default function ForType() {
       {destinations.map((dest) => (
         <Destination destination={dest}></Destination>
       ))}
-    </div>
+    </div></>
   );
 }

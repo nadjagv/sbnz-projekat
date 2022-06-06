@@ -4,6 +4,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import environment from "../Constants/Environment";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../Services/AuthService";
+import Header from './Header'
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -11,13 +13,22 @@ export default function LoginPage() {
   const navigation = useNavigate();
 
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if(AuthService.getUser()){
+      AuthService.removeUser();
+    }
+  }, []);
 
   let loginDetails = {
     username: username,
     password: password,
   };
   const handleLogin = () => {
+    axios.post(environment.baseURL+'auth/login',{username,password}).then(response=>{
+      console.log(response)
+      AuthService.setUser(response.data)
+      navigation("/destinationsAdmin")
+  });
   };
 
   const paperStyle = {
@@ -28,7 +39,7 @@ export default function LoginPage() {
   };
   const btnstyle = { margin: "8px 0" };
   return (
-    <Grid>
+    <><Header></Header><Grid>
       <Paper elevation={10} style={paperStyle}>
         <Grid>
           <h2>Sign In</h2>
@@ -67,6 +78,6 @@ export default function LoginPage() {
           Sign in
         </Button>
       </Paper>
-    </Grid>
+    </Grid></>
   );
 }

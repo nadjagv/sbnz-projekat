@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sbnz.integracija.example.SampleAppService;
+import sbnz.integracija.example.dto.DestinationDTO;
 import sbnz.integracija.example.dto.RequestDTO;
 import sbnz.integracija.example.enums.DestinationType;
+import sbnz.integracija.example.facts.Attraction;
 import sbnz.integracija.example.facts.Destination;
 import sbnz.integracija.example.facts.DestinationTypeCount;
 import sbnz.integracija.example.facts.DestinationsResponse;
@@ -156,6 +159,69 @@ public class DestinationService {
 		kieSession.dispose();
 		
 		return destinationsFound;
+	}
+	
+	public Destination getOneDestination(Integer id) throws Exception {
+		Destination destination = destinationRep.getOne(id);
+		if (destination == null) {
+			throw new Exception("Not found.");
+		}
+		
+		return destination;
+	}
+	
+	public List<Destination> getAllDestination(){
+		return destinationRep.findAll();
+	}
+	
+	public Destination createDestination(DestinationDTO dto) {
+		Destination destination = Destination.builder().airport(dto.isAirport())
+				.attractions(new HashSet<Attraction>())
+				.beach(dto.isBeach())
+				.childrenActivities(dto.isChildrenActivities())
+				.deleted(false)
+				.destinationType(dto.getDestinationType())
+				.location(dto.getLocation())
+				.price(dto.getPrice())
+				.proximity(dto.getProximity())
+				.rentACar(dto.isRentACar())
+				.restaurants(dto.isRestaurants())
+				.shops(dto.isShops())
+				.sightseeings(dto.isSightseeings())
+				.build();
+		
+		return destinationRep.save(destination);
+	}
+	
+	
+	public void deleteDestination(Integer id) throws Exception {
+		Destination destination = destinationRep.getOne(id);
+		if (destination == null) {
+			throw new Exception("Not found.");
+		}
+		
+		destinationRep.delete(destination);
+	}
+	
+	public Destination updateDestination(DestinationDTO dto) throws Exception {
+		Destination destination = destinationRep.getOne(dto.getId());
+		if (destination == null) {
+			throw new Exception("Not found.");
+		}
+		
+		destination.setAirport(dto.isAirport());
+		destination.setBeach(dto.isBeach());
+		destination.setChildrenActivities(dto.isChildrenActivities());
+		destination.setDestinationType(dto.getDestinationType());
+		destination.setLocation(dto.getLocation());
+		destination.setPrice(dto.getPrice());
+		destination.setProximity(dto.getProximity());
+		destination.setRentACar(dto.isRentACar());
+		destination.setRestaurants(dto.isRestaurants());
+		destination.setShops(dto.isShops());
+		destination.setSightseeings(dto.isSightseeings());
+		
+		return destinationRep.save(destination);
 	}
 
 }

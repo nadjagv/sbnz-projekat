@@ -1,6 +1,7 @@
 package sbnz.integracija.example.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
+
 import sbnz.integracija.example.SampleAppService;
+import sbnz.integracija.example.dto.AttractionDTO;
 import sbnz.integracija.example.dto.RequestDTO;
 import sbnz.integracija.example.enums.AttractionType;
 import sbnz.integracija.example.enums.Interest;
@@ -19,6 +23,7 @@ import sbnz.integracija.example.facts.Attraction;
 import sbnz.integracija.example.facts.AttractionsResponse;
 import sbnz.integracija.example.facts.Destination;
 import sbnz.integracija.example.facts.Request;
+import sbnz.integracija.example.facts.Review;
 import sbnz.integracija.example.repository.AttractionRepository;
 import sbnz.integracija.example.repository.DestinationRepository;
 
@@ -70,6 +75,72 @@ public class AttractionService {
 		kieSession.dispose();
 		
 		return response;
+	}
+	
+	public Attraction getOneAttraction(Integer id) throws Exception {
+		
+		Attraction attraction = attractionRepository.getOne(id);
+		if (attraction == null) {
+			throw new Exception("Not found.");
+		}
+		
+		return attraction;
+	}
+	
+	public List<Attraction> getAllAttraction() throws Exception {
+		return attractionRepository.findAll();
+	}
+	
+	
+	public Attraction createAttraction(AttractionDTO dto) throws Exception {
+		Destination destination = destinationRepository.getOne(dto.getDestinationId());
+		if (destination == null) {
+			throw new Exception("Not found.");
+		}
+		
+		Attraction attraction = Attraction.builder().attractionType(dto.getAttractionType())
+				.childFriendly(dto.isChildFriendly())
+				.deleted(false)
+				.description(dto.getDescription())
+				.destination(destination)
+				.name(dto.getName())
+				.nearDestination(dto.isNearDestination())
+				.tickets(dto.isTickets())
+				.reviews(new HashSet<Review>())
+				.build();
+		
+		return attractionRepository.save(attraction);
+	}
+	
+	public void deleteAttraction(Integer id) throws Exception {
+		
+		Attraction attraction = attractionRepository.getOne(id);
+		if (attraction == null) {
+			throw new Exception("Not found.");
+		}
+		
+		attractionRepository.delete(attraction);
+	}
+	
+	public Attraction updateAttraction(AttractionDTO dto) throws Exception {
+		Destination destination = destinationRepository.getOne(dto.getDestinationId());
+		if (destination == null) {
+			throw new Exception("Not found.");
+		}
+		
+		Attraction attraction = attractionRepository.getOne(dto.getId());
+		if (attraction == null) {
+			throw new Exception("Not found.");
+		}
+		
+		attraction.setAttractionType(dto.getAttractionType());
+		attraction.setChildFriendly(dto.isChildFriendly());
+		attraction.setDescription(dto.getDescription());
+		attraction.setDestination(destination);
+		attraction.setName(dto.getName());
+		attraction.setNearDestination(dto.isNearDestination());
+		attraction.setTickets(dto.isTickets());
+		return attractionRepository.save(attraction);
 	}
 	
 

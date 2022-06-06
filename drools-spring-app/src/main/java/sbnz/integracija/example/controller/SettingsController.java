@@ -3,6 +3,7 @@ package sbnz.integracija.example.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class SettingsController {
 	SettingsService settingsService;
 	
 	@PostMapping("/age")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateAgeCategories(@RequestBody AgeSettingsDTO dto){
 		try {
 			settingsService.updateAgeCategories(dto);
@@ -34,6 +36,7 @@ public class SettingsController {
     }
 	
 	@PostMapping("/budget")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateBudgetCategories(@RequestBody BudgetSettingsDTO dto){
 		try {
 			settingsService.updateBudgetCategories(dto);

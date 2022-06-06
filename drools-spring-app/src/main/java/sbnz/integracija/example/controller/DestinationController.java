@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +52,7 @@ public class DestinationController {
     }
 	
 	@GetMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ArrayList<DestinationDTO>> getAll(){
 		try {
 			List<Destination> destinations = destinationService.getAllDestination();
@@ -68,12 +70,14 @@ public class DestinationController {
     }
 	
 	@PostMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<DestinationDTO> create(@RequestBody DestinationDTO dto){
 		Destination d = destinationService.createDestination(dto);
         return new ResponseEntity<DestinationDTO>(new DestinationDTO(d), HttpStatus.OK);
     }
 	
 	@PutMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<DestinationDTO> update(@RequestBody DestinationDTO dto){
 		Destination d;
 		try {
@@ -88,6 +92,7 @@ public class DestinationController {
     }
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> delete(@PathVariable Integer id){
 		Destination d;
 		try {

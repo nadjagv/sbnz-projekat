@@ -3,9 +3,11 @@ package sbnz.integracija.example.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +54,7 @@ public class AttractionController {
     }
 	
 	@GetMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ArrayList<AttractionDTO>> getAll(){
 		try {
 			List<Attraction> attractions = attractionService.getAllAttraction();
@@ -69,6 +72,7 @@ public class AttractionController {
     }
 	
 	@PostMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AttractionDTO> create(@RequestBody AttractionDTO dto){
 		Attraction d;
 		try {
@@ -83,6 +87,7 @@ public class AttractionController {
     }
 	
 	@PutMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<AttractionDTO> update(@RequestBody AttractionDTO dto){
 		Attraction d;
 		try {
@@ -97,6 +102,7 @@ public class AttractionController {
     }
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> delete(@PathVariable Integer id){
 		try {
 			attractionService.deleteAttraction(id);

@@ -19,7 +19,7 @@ export default function Destinations(props) {
   }, []);
 
   const handleAttractions = (id) => {
-    axios.post(environment.baseURL+'attraction?destinationId='+id,location.state.parameters).then(response=>{
+    axios.post(environment.baseURL+'attraction/find?destinationId='+id,location.state.parameters).then(response=>{
         console.log(response.data)
         setAttractions(response.data.attractions)
         setAttractionsModal(true)

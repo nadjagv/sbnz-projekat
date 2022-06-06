@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,12 +25,14 @@ public class QueryController {
 	private DestinationService destinationService;
 	
 	@GetMapping("/type")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Object> getADestinationsForType(@RequestParam DestinationType dt){
 		ArrayList<Destination> destinations=(ArrayList<Destination>) destinationService.findDestinationType(dt);
         return new ResponseEntity<Object>(destinations, HttpStatus.OK);
     }
 	
 	@GetMapping("/popular")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Object> getPopularDestinations(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end){
 		ArrayList<Destination> destinations=(ArrayList<Destination>) destinationService.popularDestinations(start,end);
         return new ResponseEntity<Object>(destinations, HttpStatus.OK);

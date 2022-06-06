@@ -43,7 +43,7 @@ export default function FormPage() {
 
   const handleSearch = () => {
     const interestsDTO=interests.map(i=>i.value)
-    axios.post(environment.baseURL+'destination',{transportation:transport,budget:budget,age:age,travelCompanion: partner,children:children,interests:interestsDTO}).then(response=>{
+    axios.post(environment.baseURL+'destination/recommend',{transportation:transport,budget:budget,age:age,travelCompanion: partner,children:children,interests:interestsDTO}).then(response=>{
         console.log(response.data)
         navigate('/destinations',{state:{destinations:response.data,parameters:{transportation:transport,budget:budget,age:age,travelCompanion: partner,children:children,interests:interestsDTO}}});
     });

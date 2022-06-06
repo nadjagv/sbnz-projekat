@@ -25,14 +25,12 @@ public class QueryController {
 	private DestinationService destinationService;
 	
 	@GetMapping("/type")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Object> getADestinationsForType(@RequestParam DestinationType dt){
 		ArrayList<Destination> destinations=(ArrayList<Destination>) destinationService.findDestinationType(dt);
         return new ResponseEntity<Object>(destinations, HttpStatus.OK);
     }
 	
 	@GetMapping("/popular")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Object> getPopularDestinations(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end){
 		ArrayList<Destination> destinations=(ArrayList<Destination>) destinationService.popularDestinations(start,end);
         return new ResponseEntity<Object>(destinations, HttpStatus.OK);

@@ -5,6 +5,7 @@ import axios from "axios";
 import environment from "../Constants/Environment";
 import Destination from "./Destination";
 import { Button } from "@mui/material";
+import Header from './Header'
 
 export default function Popular() {
   const [start, setStart] = useState("2022-01-01");
@@ -21,7 +22,7 @@ export default function Popular() {
       });
   };
   return (
-    <div style={{margin:"20px"}}>
+    <><Header></Header><div style={{margin:"20px"}}>
       <TextField
         id="date"
         label="Start"
@@ -66,6 +67,6 @@ export default function Popular() {
       {destinations.map((dest) => (
         <Destination destination={dest}></Destination>
       ))}
-    </div>
+    </div></>
   );
 }

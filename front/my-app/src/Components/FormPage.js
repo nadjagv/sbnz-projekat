@@ -18,6 +18,7 @@ import environment from "../Constants/Environment";
 import { useNavigate,Navigate } from "react-router-dom";
 import { RadioGroup, Radio } from "@mui/material";
 import Attractions from "./Attractions";
+import Header from './Header'
 
 export default function FormPage() {
   const [transport, setTransport] = useState("PLANE");
@@ -56,6 +57,7 @@ export default function FormPage() {
   };
   const btnstyle = { margin: "8px 0" };
   return (
+    <><Header></Header>
     <Grid>
       <Paper elevation={10} style={paperStyle}>
         <Grid>
@@ -162,5 +164,6 @@ export default function FormPage() {
       </Paper>
 
     </Grid>
+    </>
   );
 }

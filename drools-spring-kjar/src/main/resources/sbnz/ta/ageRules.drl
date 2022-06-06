@@ -1,12 +1,11 @@
 package sbnz.integracija;
-
 import sbnz.integracija.example.facts.*
 import sbnz.integracija.example.enums.*
 
 rule "Classify Request By Age OLD"
 	agenda-group "age"
 	when
-	    $request: Request( age >= 60 && age < 2147483647 )
+	    $request: Request( age >= 55 && age < 200 )
 	then
 	    modify($request){ setAgeCategory(AgeCategory.OLD); }
 	end
@@ -14,7 +13,7 @@ rule "Classify Request By Age OLD"
 rule "Classify Request By Age ADULT"
 	agenda-group "age"
 	when
-	     $request: Request( age >= 25 && age < 60 )
+	    $request: Request( age >= 30 && age < 55 )
 	then
 	    modify($request){ setAgeCategory(AgeCategory.ADULT); }
 	end
@@ -22,7 +21,9 @@ rule "Classify Request By Age ADULT"
 rule "Classify Request By Age YOUNG"
 	agenda-group "age"
 	when
-	    $request: Request( age >= 0 && age < 25 ) 
+	    $request: Request( age >= 0 && age < 30 )
 	then
 	    modify($request){ setAgeCategory(AgeCategory.YOUNG); }
 	end
+
+

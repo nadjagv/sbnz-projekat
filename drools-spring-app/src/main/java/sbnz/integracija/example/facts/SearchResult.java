@@ -22,11 +22,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "search_results")
-@SQLDelete(sql
-        = "UPDATE search_results "
-        + "SET deleted = true "
-        + "WHERE id = ?")
-@Where(clause = "deleted = false")
 @Getter
 @Setter
 @Builder

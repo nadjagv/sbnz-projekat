@@ -1,6 +1,7 @@
 package sbnz.integracija.example.service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +126,33 @@ public class DestinationService {
 		}
 		
 				
+		kieSession.dispose();
+		
+		return destinationsFound;
+	}
+	
+	public List<Destination> popularDestinations(LocalDate start,LocalDate end){
+		List<Destination> destinations =  destinationRep.findAll();
+		List<SearchResult> searchResults= searchResultRepository.findAll();
+		
+		KieSession kieSession = kieContainer.newKieSession();
+		
+		for (Destination destination : destinations) {
+			kieSession.insert(destination);
+		}
+		
+		for(SearchResult sr: searchResults) {
+			kieSession.insert(sr);
+		}
+		
+		QueryResults results=kieSession.getQueryResults("Get popular destinations",start,end);
+		ArrayList<Destination> destinationsFound=new ArrayList<Destination>();
+		for(QueryResultsRow row: results) {
+			Destination d=(Destination) row.get("$d");
+			destinationsFound.add(d);
+			System.out.println(d.getLocation());
+		}
+		
 		kieSession.dispose();
 		
 		return destinationsFound;

@@ -1,8 +1,10 @@
 package sbnz.integracija.example.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,12 @@ public class QueryController {
 	@GetMapping("/type")
 	public ResponseEntity<Object> getADestinationsForType(@RequestParam DestinationType dt){
 		ArrayList<Destination> destinations=(ArrayList<Destination>) destinationService.findDestinationType(dt);
+        return new ResponseEntity<Object>(destinations, HttpStatus.OK);
+    }
+	
+	@GetMapping("/popular")
+	public ResponseEntity<Object> getPopularDestinations(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end){
+		ArrayList<Destination> destinations=(ArrayList<Destination>) destinationService.popularDestinations(start,end);
         return new ResponseEntity<Object>(destinations, HttpStatus.OK);
     }
 

@@ -2,7 +2,16 @@ package sbnz.integracija;
 
 import sbnz.integracija.example.facts.*
 import sbnz.integracija.example.enums.*
+import java.util.List;
+import java.time.LocalDate;
+import java.sql.Timestamp;
 
 query "Get destinations of a type" (DestinationType $dt)
 	$d: Destination(destinationType==$dt)
+end
+
+query "Get popular destinations" (LocalDate $start,LocalDate $end)
+	$d: Destination()
+	$results: List() from collect(SearchResult(destination.id==$d.id,timestamp.toLocalDateTime().toLocalDate().isAfter($start),timestamp.toLocalDateTime().toLocalDate().isBefore($end)))
+	eval($results.size()>4)
 end

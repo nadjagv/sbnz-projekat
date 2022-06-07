@@ -90,24 +90,6 @@ rule "Filter destinations - INTEREST"
 	    modify($response){setDestinations($matching)}
 	end
 	
-
-rule "Filter destinations - ADVENTURE Attractions"
-	agenda-group "destination"
-	lock-on-active 
-	when
-	
-		$response: DestinationsResponse($destinations: destinations)
-		$request: Request($interests: interests, $transportation: transportation)
-		$matching: Set() from accumulate (
-			$d: Destination()
-		    from $destinations,
-		    init(Set s = new HashSet();)
-		    action(s.add($d);)
-			result(s)
-			)
-	then
-	    modify($response){setDestinations($matching)}
-	end
 	
 
 	

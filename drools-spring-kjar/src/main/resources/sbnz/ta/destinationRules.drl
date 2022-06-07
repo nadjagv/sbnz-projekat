@@ -64,6 +64,50 @@ rule "Filter destinations - BUDGET"
 	    modify($response){setDestinations($matching)}
 	end
 	
+rule "Filter destinations - INTEREST"
+	agenda-group "destination"
+	lock-on-active 
+	when
+	
+		$response: DestinationsResponse($destinations: destinations)
+		$request: Request($interests: interests, $transportation: transportation)
+		$matching: Set() from accumulate (
+			$d: Destination((beach == true && Interest.BEACH memberOf $interests) ||
+			((proximity==TownProximity.TOWN || proximity==TownProximity.SUBURB) && ((Interest.SHOPPING memberOf $interests) ||(Interest.NIGHTLIFE memberOf $interests))) ||
+			(proximity==TownProximity.TOWN && restaurants == true && Interest.FOOD memberOf $interests) ||
+			(sightseeings == true && Interest.SIGHTSEEING memberOf $interests) ||
+			(sightseeings == true && beach == true && Interest.ADVENTURE memberOf $interests && ($transportation==Transportation.CAR || rentACar==true) && attractions.size() >= 2)
+			)
+		    from $destinations,
+		    init(Set s = new HashSet();)
+		    action(
+		    {
+		    	s.add($d);
+		    })
+			result(s)
+			)
+	then
+	    modify($response){setDestinations($matching)}
+	end
+	
+
+rule "Filter destinations - ADVENTURE Attractions"
+	agenda-group "destination"
+	lock-on-active 
+	when
+	
+		$response: DestinationsResponse($destinations: destinations)
+		$request: Request($interests: interests, $transportation: transportation)
+		$matching: Set() from accumulate (
+			$d: Destination()
+		    from $destinations,
+		    init(Set s = new HashSet();)
+		    action(s.add($d);)
+			result(s)
+			)
+	then
+	    modify($response){setDestinations($matching)}
+	end
 	
 
 	

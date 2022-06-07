@@ -74,5 +74,4 @@ public class Destination {
     @OneToMany(mappedBy = "destination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Attraction> attractions=new HashSet<Attraction>();
 	
-
 }

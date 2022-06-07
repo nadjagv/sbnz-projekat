@@ -121,9 +121,12 @@ rule "Set destination type"
 	
 	salience 0
 	when
-		accumulate (DestinationTypeCount($count: count),
-			$max : max($count)
+		accumulate (DestinationTypeCount($dtc:this, $count: count),
+			$max : max($count),
+			$average: average($count),
+			$checkSet: collectSet($dtc)
 		)
+		eval ($checkSet.size()==5)
 		$destTypeCount: DestinationTypeCount($destinationType: destinationType, count == $max)
 		$request: Request()
 	then

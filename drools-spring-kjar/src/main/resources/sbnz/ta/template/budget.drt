@@ -12,8 +12,9 @@ template "Classify request by budget"
 
 rule "Classify Budget - @{budgetCategory}"
 	agenda-group "budget"
+	salience 1/($budget - @{minBudget})
 	when
-	    $request: Request( budget >= @{minBudget} && budget < @{maxBudget} )
+	    $request: Request( budget >= @{minBudget} && budget < @{maxBudget}, $budget: budget )
 	then
 	    modify($request){ setBudgetCategory(BudgetCategory.@{budgetCategory}); }
 	end

@@ -1,28 +1,32 @@
 package sbnz.integracija;
-
 import sbnz.integracija.example.facts.*
 import sbnz.integracija.example.enums.*
 
 rule "Classify Budget - LUX"
 	agenda-group "budget"
+	salience 1/($budget - 1500.0)
 	when
-	    $request: Request( budget >= 1500 )
+	    $request: Request( budget >= 1500.0 && budget < 1.7976931348623157E308, $budget: budget )
 	then
 	    modify($request){ setBudgetCategory(BudgetCategory.LUX); }
 	end
 
 rule "Classify Budget - STANDARD"
 	agenda-group "budget"
+	salience 1/($budget - 500.0)
 	when
-	     $request: Request( budget >= 500 && budget < 1500 )
+	    $request: Request( budget >= 500.0 && budget < 1500.0, $budget: budget )
 	then
 	    modify($request){ setBudgetCategory(BudgetCategory.STANDARD); }
 	end
 
 rule "Classify Budget - BUDGET"
 	agenda-group "budget"
+	salience 1/($budget - 0.0)
 	when
-	    $request: Request( budget >= 0 && budget < 500 ) 
+	    $request: Request( budget >= 0.0 && budget < 500.0, $budget: budget )
 	then
 	    modify($request){ setBudgetCategory(BudgetCategory.BUDGET); }
 	end
+
+
